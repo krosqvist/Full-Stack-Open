@@ -133,7 +133,7 @@ const App = () => {
         setNewNumber('')
       })
       .catch(error => {
-        setErrorMessage(`Failed to add ${newName}`)
+        setErrorMessage(error.response.data.error)
         setTimeout(() => setErrorMessage(null), 5000)
     })
     }
