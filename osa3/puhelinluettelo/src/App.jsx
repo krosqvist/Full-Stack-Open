@@ -116,9 +116,9 @@ const App = () => {
             setErrorMessage(
               `Information of ${newName} has already been removed from server`
             )
-            setTimeout(() => setErrorMessage(null), 5000)
             setPersons(persons.filter(person => person.id !== existingPerson.id))
             }
+            setTimeout(() => setErrorMessage(null), 5000)
           })
       }
       return
