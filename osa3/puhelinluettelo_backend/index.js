@@ -19,13 +19,13 @@ app.use(express.static('dist'))
 app.use(express.json())
 
 app.get('/info', (request, response) => {
-    const people = persons.length
-    const date = new Date().toString()
-    const info = `
+  const people = persons.length
+  const date = new Date().toString()
+  const info = `
         <p>Phonebook has info for ${people} people</p>
         <p>${date}</p>`
-    response.send(info)
-    })
+  response.send(info)
+})
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then((persons) => {
@@ -41,8 +41,8 @@ app.get('/api/persons/:id', (request, response, next) => {
       } else {
         response.status(404).end()
       }
-  })
-  .catch(error => next(error)) 
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -66,7 +66,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -89,7 +89,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -114,5 +114,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })

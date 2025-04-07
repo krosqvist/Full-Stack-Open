@@ -151,7 +151,7 @@ const App = () => {
           setSuccessMessage(`Deleted ${name}`)
           setTimeout(() => setSuccessMessage(null), 5000)
       })
-      .catch(error => {
+      .catch(() => {
           setErrorMessage(`Information of ${name} has already been removed from server`)
           setTimeout(() => setErrorMessage(null), 5000)
           setPersons(persons.filter(person => person.id !== id))
