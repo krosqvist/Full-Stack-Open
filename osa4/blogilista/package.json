@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=develpoment node --watch index.js",
+    "test": "NODE_ENV=test node --test",
     "lint": "eslint .",
     "build:ui": "rm -rf dist && cd ~/Full-Stack-Open/osa4/blogilista && npm run build && cp -r dist ~/Full-Stack-Open/osa4/blogilista",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
@@ -15,7 +15,8 @@
   "description": "",
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^5.1.0",
+    "express": "^4.21.2",
+    "express-async-errors": "^3.1.1",
     "lodash": "^4.17.21",
     "mongoose": "^8.13.2"
   },
@@ -23,6 +24,7 @@
     "@eslint/js": "^9.24.0",
     "@stylistic/eslint-plugin-js": "^4.2.0",
     "eslint": "^9.24.0",
-    "globals": "^16.0.0"
+    "globals": "^16.0.0",
+    "supertest": "^7.1.0"
   }
 }
