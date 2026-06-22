@@ -10,7 +10,8 @@ const History = (props) => {
   }
   return (
     <div>
-      button press history: {props.allClicks.join(' ')}
+      <p>button press history: {props.allClicks.join(' ')}</p>
+      <p>total {props.total}</p>
     </div>
   )
 }
@@ -48,7 +49,7 @@ const App = () => {
         <Button onClick={handleLeftClick} text="left" />
         <Button onClick={handleRightClick} text="right" />
         {right}
-        <History allClicks={allClicks} />
+        <History allClicks={allClicks} total={total} />
       </div>
     </div>
   )

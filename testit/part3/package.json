@@ -6,6 +6,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=develpoment node --watch index.js",
     "test": "NODE_ENV=test node --test",
+    "start:test": "NODE_ENV=test node index.js",
     "build:ui": "rm -rf dist && cd ~/Full-Stack-Open/testit/notes && npm run build && cp -r dist ~/Full-Stack-Open/testit/part3",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
