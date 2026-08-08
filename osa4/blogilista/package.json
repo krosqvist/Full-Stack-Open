@@ -7,6 +7,7 @@
     "dev": "NODE_ENV=develpoment node --watch index.js",
     "test": "NODE_ENV=test node --test",
     "lint": "eslint .",
+    "start:test": "NODE_ENV=test node --watch index.js",
     "build:ui": "rm -rf dist && cd ~/Full-Stack-Open/osa4/blogilista && npm run build && cp -r dist ~/Full-Stack-Open/osa4/blogilista",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },

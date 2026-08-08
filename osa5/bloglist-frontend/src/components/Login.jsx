@@ -15,22 +15,26 @@ const LoginForm = ({
       <Notification message={message} />
       <form onSubmit={handleLogin}>
         <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={setUsername}
-          />
+          <label>
+            username
+            <input
+              type="text"
+              value={username}
+              name="Username"
+              onChange={setUsername}
+            />
+          </label>
         </div>
         <div>
+          <label>
           password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={setPassword}
-          />
+            <input
+              type="password"
+              value={password}
+              name="Password"
+              onChange={setPassword}
+            />
+          </label>
         </div>
         <button type="submit">login</button>
       </form>
