@@ -1,9 +1,13 @@
-import { useParams } from 'react-router-dom'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Stack,
+  Divider,
+} from '@mui/material'
 
-const Blog = ({ blogs, user, handleLike, handleDeleteBlog }) => {
-  const id = useParams().id
-  const blog = blogs.find(blog => blog.id === id)
-
+const Blog = ({ blog, user, handleLike, handleDeleteBlog }) => {
   if (!blog) {
     return null
   }
@@ -11,18 +15,60 @@ const Blog = ({ blogs, user, handleLike, handleDeleteBlog }) => {
   const isBlogOwner = user?.username === blog.user?.username
 
   return (
-    <div className='blog'>
-      <h2>{blog.title}</h2>
-      <p>{blog.url}</p>
-      <p>
-        likes {blog.likes}
-        {user && (<button onClick={() => handleLike(blog)}>like</button>)}
-      </p>
-      <p>{blog.author}</p>
-      {isBlogOwner && (<button onClick={() => handleDeleteBlog(blog)}>
-        delete
-      </button>)}
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h4" component="h2">
+          {blog.title}
+        </Typography>
+
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          By: {blog.author}
+        </Typography>
+
+        <Typography
+          variant="body1"
+          component="a"
+          href={`https://${blog.url}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {blog.url}
+        </Typography>
+
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          Added by: {blog.user.username}
+        </Typography>
+
+        <Divider sx={{ my: 2 }} />
+
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Typography>
+            likes {blog.likes}
+          </Typography>
+        </Stack>
+
+        {user && (
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => handleLike(blog)}
+          >
+            like
+          </Button>
+        )}
+
+        {isBlogOwner && (
+          <Button
+            variant="outlined"
+            size="small"
+            color="error"
+            onClick={() => handleDeleteBlog(blog)}
+          >
+            delete
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   )
 }
 

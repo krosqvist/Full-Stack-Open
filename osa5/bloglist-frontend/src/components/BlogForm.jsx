@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { TextField, Button } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [newBlog, setNewBlog] = useState({
@@ -31,45 +32,37 @@ const BlogForm = ({ createBlog }) => {
     <div>
       <h2>create new</h2>
       <form onSubmit={addBlog}>
-        <div>
-          <label>
-          title:
-            <input
-              type="text"
-              value={newBlog.title}
-              name="title"
-              onChange={handleChange}
-              placeholder='title'
-              required
-            />
-          </label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <TextField
+            label="title"
+            type="text"
+            value={newBlog.title}
+            name="title"
+            onChange={handleChange}
+            placeholder="title"
+            sx={{ width: 300 }}
+          />
+
+          <TextField
+            label="author"
+            type="text"
+            value={newBlog.author}
+            name="author"
+            onChange={handleChange}
+            placeholder="author"
+            sx={{ width: 300 }}
+          />
+          <TextField
+            label="url"
+            type="text"
+            value={newBlog.url}
+            name="url"
+            onChange={handleChange}
+            placeholder="url"
+            sx={{ width: 300 }}
+          />
         </div>
-        <div>
-          <label>
-          author:
-            <input
-              type="text"
-              value={newBlog.author}
-              name="author"
-              onChange={handleChange}
-              placeholder='author'
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-          url:
-            <input
-              type="text"
-              value={newBlog.url}
-              name="url"
-              onChange={handleChange}
-              placeholder='url'
-              required
-            />
-          </label>
-        </div>
-        <button type="submit">create</button>
+        <Button type="submit" variant="contained" style={{ marginTop: 10 }}>create</Button>
       </form>
     </div>
   )

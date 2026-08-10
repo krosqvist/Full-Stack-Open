@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { Container, AppBar, Toolbar, Button } from '@mui/material'
 import {
-  Routes, Route, Link, Navigate, useNavigate
+  Routes, Route, Link, Navigate, useNavigate, useMatch
 } from 'react-router-dom'
 
 import Blog from './components/Blog'
@@ -14,7 +15,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -50,9 +51,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setMessage('Wrong username or password')
+      setNotification({ text: 'Wrong username or password', type: 'error' })
       setTimeout(() => {
-        setMessage(null)
+        setNotification(null)
       }, 5000)
     }
   }
@@ -64,9 +65,9 @@ const App = () => {
       setUser(null)
       blogService.setToken(null)
     } catch (exception) {
-      setMessage('Error logging out')
+      setNotification({ text: 'Error logging out', type: 'error' })
       setTimeout(() => {
-        setMessage(null)
+        setNotification(null)
       }, 5000)
     }
   }
@@ -77,15 +78,15 @@ const App = () => {
       const createdBlog = await blogService.create(blogObject)
       createdBlog.user = user
       setBlogs(blogs.concat(createdBlog))
-      setMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
+      setNotification({ text: `a new blog ${createdBlog.title} by ${createdBlog.author} added`, type: 'success' })
       setTimeout(() => {
-        setMessage(null)
+        setNotification(null)
       }, 5000)
       navigate('/')
     } catch (exception) {
-      setMessage('Error creating blog')
+      setNotification({ text: 'Error creating blog', type: 'error' })
       setTimeout(() => {
-        setMessage(null)
+        setNotification(null)
       }, 5000)
     }
   }
@@ -96,15 +97,15 @@ const App = () => {
         console.log('deleting blog', blogObject)
         await blogService.remove(blogObject.id)
         setBlogs(blogs.filter(b => b.id !== blogObject.id))
-        setMessage(`Deleted blog ${blogObject.title} by ${blogObject.author}`)
+        setNotification({ text: `Deleted blog ${blogObject.title} by ${blogObject.author}`, type: 'success' })
         setTimeout(() => {
-          setMessage(null)
+          setNotification(null)
         }, 5000)
         navigate('/')
       } catch (exception) {
-        setMessage('Error deleting blog')
+        setNotification({ text: 'Error deleting blog', type: 'error' })
         setTimeout(() => {
-          setMessage(null)
+          setNotification(null)
         }, 5000)
       }
   }
@@ -116,39 +117,47 @@ const App = () => {
         ...blogObject,
         likes: blogObject.likes + 1 })
       setBlogs(blogs.map(b => b.id !== likedBlog.id ? b: { ...likedBlog, user: b.user }))
-      setMessage(`a new blog ${likedBlog.title} by ${likedBlog.author} was liked`)
+      setNotification({ text: `a new blog ${likedBlog.title} by ${likedBlog.author} was liked`, type: 'success' })
       setTimeout(() => {
-        setMessage(null)
+        setNotification(null)
       }, 5000)
     } catch (exception) {
-      setMessage('Error liking blog')
+      setNotification({ text: 'Error liking blog', type: 'error' })
       setTimeout(() => {
-        setMessage(null)
+        setNotification(null)
       }, 5000)
     }
   }
+
+  const match = useMatch('/blogs/:id')
+  const blog = match
+    ? blogs.find(blog => blog.id === match.params.id)
+    : null
 
   const loginForm = () => (
     <LoginForm
       handleLogin={handleLogin}
       setUsername={({ target }) => setUsername(target.value)}
       setPassword={({ target }) => setPassword(target.value)}
-      message={message}
       username={username}
       password={password}
     />
   )
 
-  return (
-    <div>
-      <Notification message={message} />
+  const hoverStyle = { '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }
 
-      <div>
-        <Link to="/">blogs</Link>{' '}
-        {user && (<><Link to="/create">new blog</Link>{' '}</>)}
-        {!user && (<Link to="/login">login</Link>)}
-        {user && (<button onClick={handleLogout}>logout</button>)}
-      </div>
+  return (
+    <Container>
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/" sx={hoverStyle}>blogs</Button>
+          {user && (<Button color="inherit" component={Link} to="/create" sx={hoverStyle}>new blog</Button>)}
+          {!user && (<Button color="inherit" component={Link} to="/login" sx={hoverStyle}>login</Button>)}
+          {user && (<Button color="inherit" onClick={handleLogout} sx={hoverStyle}>logout</Button>)}
+        </Toolbar>
+      </AppBar>
+
+      <Notification notification={notification} />
 
       <Routes>
         <Route path="/login" element={
@@ -171,7 +180,7 @@ const App = () => {
 
         <Route path="/blogs/:id" element={
           <Blog
-            blogs={blogs}
+            blog={blog}
             user={user}
             handleLike={handleLike}
             handleDeleteBlog={handleDeleteBlog}
@@ -190,7 +199,7 @@ const App = () => {
         }
         />
       </Routes>
-    </div>
+    </Container>
   )
 }
 
