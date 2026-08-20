@@ -32,8 +32,13 @@
     },
     {
       "content": "notification",
-      "votes": 2,
+      "votes": 3,
       "id": "J4yJPxQxpiI"
+    },
+    {
+      "content": "a",
+      "votes": 3,
+      "id": "xPtDOgzFIpw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
